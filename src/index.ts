@@ -3,14 +3,20 @@ import express from 'express'
 import cors from 'cors'
 import { db } from './db'
 import * as schema from './db/schema'
-import { eq } from 'drizzle-orm'
+import usersRouter from './routes/users'
+import authRouter from './routes/authRoutes'  // ✅ add this
 
 const app = express()
 const port = process.env.PORT || 3001
 
-app.use(cors()) 
+app.use(cors())
 app.use(express.json())
 
+// Mount routers
+app.use('/api/users', usersRouter)
+app.use('/api/auth', authRouter) // ✅ now /api/auth/profile will work
+
+// (Optional) keep your test routes for fetching tables
 const tables = [
   'users', 'vendors', 'buyers', 'stalls', 'stall_items', 'conversations',
   'messages', 'images', 'sessions', 'revoked_tokens', 'reviews',
@@ -20,7 +26,7 @@ const tables = [
 tables.forEach((table) => {
   app.get(`/api/${table}`, async (_req, res) => {
     try {
-      // @ts-ignore dynamic key access
+      // @ts-ignore
       const rows = await db.query[table].findMany()
       res.json(rows)
     } catch (err) {
@@ -31,5 +37,5 @@ tables.forEach((table) => {
 })
 
 app.listen(port, () => {
-    console.log(`🚀 Server running at http://localhost:${port}`)
+  console.log(`🚀 Server running at http://localhost:${port}`)
 })
