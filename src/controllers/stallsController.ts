@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
-import { stalls, images, reviews } from '../db/schema';
+import { stalls, images, reviews, vendors } from '../db/schema';
 import { eq, avg, and } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/pg-core';
 
@@ -13,6 +13,7 @@ export async function getStalls(req: Request, res: Response) {
             .select({
                 stall_id: stalls.stall_id,
                 stall_name: stalls.stall_name,
+                vendor_name: vendors.business_name,
                 stall_description: stalls.stall_description,
                 category: stalls.category,
                 location: stalls.stall_address,
@@ -22,6 +23,7 @@ export async function getStalls(req: Request, res: Response) {
             })
             .from(stalls)
             .leftJoin(reviews, eq(stalls.stall_id, reviews.stall_id))
+            .leftJoin(vendors, eq(stalls.user_id, vendors.user_id))
             .leftJoin(
                 bannerImages,
                 and(
@@ -38,6 +40,7 @@ export async function getStalls(req: Request, res: Response) {
             )
             .groupBy(
                 stalls.stall_id,
+                vendors.business_name,
                 bannerImages.image_url,
                 iconImages.image_url
             );
