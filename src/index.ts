@@ -5,7 +5,8 @@ import { db } from './db'
 import * as schema from './db/schema'
 import usersRouter from './routes/users'
 import authRouter from './routes/authRoutes'  // ✅ add this
-import cardsRouter from './routes/cardsRoutes';
+import stallsRouter from './routes/stalls';
+import productsRouter from './routes/productsRoutes';
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -16,7 +17,8 @@ app.use(express.json())
 // Mount routers
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter) // ✅ now /api/auth/profile will work
-app.use('/api/cards', cardsRouter);
+app.use('/api/stalls', stallsRouter);
+app.use('/api/products', productsRouter);
 
 // (Optional) keep your test routes for fetching tables
 const tables = [
