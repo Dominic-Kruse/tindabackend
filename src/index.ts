@@ -4,7 +4,8 @@ import cors from 'cors'
 import { db } from './db'
 import * as schema from './db/schema'
 import usersRouter from './routes/users'
-import authRouter from './routes/authRoutes'  // ✅ add this
+import authRouter from './routes/authRoutes'
+import stallsRouter from './routes/stalls' // ✅ correct import
 
 const app = express()
 const port = process.env.PORT || 3001
@@ -14,7 +15,8 @@ app.use(express.json())
 
 // Mount routers
 app.use('/api/users', usersRouter)
-app.use('/api/auth', authRouter) // ✅ now /api/auth/profile will work
+app.use('/api/auth', authRouter)
+app.use('/api', stallsRouter) // ✅ changed this line so POST /api/items works
 
 // (Optional) keep your test routes for fetching tables
 const tables = [
