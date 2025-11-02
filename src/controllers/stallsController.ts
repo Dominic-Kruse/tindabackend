@@ -14,6 +14,7 @@ export async function getStalls(req: Request, res: Response) {
                 stall_id: stalls.stall_id,
                 stall_name: stalls.stall_name,
                 vendor_name: vendors.business_name,
+                vendor_contact: vendors.vendor_contact,
                 stall_description: stalls.stall_description,
                 category: stalls.category,
                 location: stalls.stall_address,
@@ -41,6 +42,7 @@ export async function getStalls(req: Request, res: Response) {
             .groupBy(
                 stalls.stall_id,
                 vendors.business_name,
+                vendors.vendor_contact,
                 bannerImages.image_url,
                 iconImages.image_url
             );
