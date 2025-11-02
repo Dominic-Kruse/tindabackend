@@ -6,9 +6,10 @@ import { alias } from 'drizzle-orm/pg-core';
 
 export async function getProducts(req: Request, res: Response) {
     try {
+        const { stall_id } = req.query;
         const productImages = alias(images, 'product_images');
 
-        const products = await db
+        let query = db
             .select({
                 product_id: stall_items.item_id,
                 product_name: stall_items.item_name,
@@ -26,6 +27,13 @@ export async function getProducts(req: Request, res: Response) {
                     eq(productImages.image_type, 'thumbnail') // Assuming 'thumbnail' for product images
                 )
             );
+
+        if (stall_id) {
+            // @ts-ignore
+            query = query.where(eq(stall_items.stall_id, stall_id));
+        }
+
+        const products = await query;
 
         res.status(200).json(products);
     } catch (err) {
