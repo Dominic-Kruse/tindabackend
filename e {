@@ -1,0 +1,95 @@
+[33mcommit e8ee7be74059fb2b0cf732bb6f14492a6c623111[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcards[m[33m, [m[1;31morigin/cards[m[33m)[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sun Nov 2 13:24:07 2025 +0800
+
+    feat(products): filter products by stall_id
+
+[33mcommit 903975ed4aca78f4b664d29f711ba1a49c37357d[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 23:45:38 2025 +0800
+
+    feat: add vendor name to stall card
+
+[33mcommit eca6a459b44e3efd19f6117407f1842f4e77d500[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 23:20:32 2025 +0800
+
+    feat: added products cards and reimplemented stalls cards
+
+[33mcommit 8cce88bf2803792fb5425e2fdc951a42808aab77[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 22:40:35 2025 +0800
+
+    feat: implement and structure basic cards API endpoint
+
+[33mcommit 71cd840d3e72231e842f628268d605ed377d936e[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: d58ccbc e340edb
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 22:06:52 2025 +0800
+
+    Merge pull request #2 from Dominic-Kruse/SignupAndLogin
+    
+    feat: added post and get for signup and login with fixed src folder l…
+
+[33mcommit e340edb3c38df633f5bbc0b99f84172dd1e4e022[m[33m ([m[1;31morigin/SignupAndLogin[m[33m, [m[1;32mSignupAndLogin[m[33m)[m
+Author: domzzxx <dominickruse19@gmail.com>
+Date:   Sat Nov 1 21:52:15 2025 +0800
+
+    feat: added post and get for signup and login with fixed src folder layout
+
+[33mcommit d58ccbc1d4b44b8c49994f5ab6f44ad2f354a3fe[m
+Merge: 6ef9417 e6ddb50
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 16:55:48 2025 +0800
+
+    Merge pull request #1 from Dominic-Kruse/complete-schema
+    
+    merge Complete schema branch to main
+
+[33mcommit e6ddb500b265256d4a974b2da9cda15a89cd210d[m[33m ([m[1;31morigin/complete-schema[m[33m)[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 16:51:40 2025 +0800
+
+    refactor: simplify route generation in src/index.ts
+
+[33mcommit 6489bcf2dfd056785a435df45a741dd0b9c1c27a[m[33m ([m[1;32mcomplete-schema[m[33m)[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 16:34:02 2025 +0800
+
+    feat: added way to run backend server and add data to db
+
+[33mcommit bed751a8e4c7670ef51a68d54a231a8f5ad674c6[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 16:12:50 2025 +0800
+
+    Update README.md
+
+[33mcommit e367f1d45b6fb29b3e6d69a0b5ab80be88854c2b[m
+Author: mizuiro14cpu <yoseforiel.borbon-22@cpu.edu.ph>
+Date:   Sat Nov 1 16:00:08 2025 +0800
+
+    chore: generate new migrations
+
+[33mcommit f0564634f28bfa224368108cd64ec5860fe665d0[m
+Author: domzzxx <dominickruse19@gmail.com>
+Date:   Sat Nov 1 15:46:12 2025 +0800
+
+    feat: finished schema check if any changes needed
+
+[33mcommit 6ef941700d21feb8d87168fcb4197e527eb0bf16[m
+Author: JOE STEVEN IMPORTANTE BANDONG <106333061+vin3121@users.noreply.github.com>
+Date:   Sat Nov 1 01:01:02 2025 +0800
+
+    sql
+
+[33mcommit 6ab60dae15811c2bc2f148ae16a4766c7363d76e[m
+Author: domzzxx <dominickruse19@gmail.com>
+Date:   Fri Oct 31 21:04:42 2025 +0800
+
+    feat: baseline of backend
+
+[33mcommit 94c43c692e22536d479074a0eb28378051c62f69[m
+Author: Dominic-Kruse <dominic.kruse-24@cpu.edu.ph>
+Date:   Fri Oct 31 21:02:07 2025 +0800
+
+    Initial commit
