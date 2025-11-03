@@ -1,0 +1,1 @@
+ALTER TABLE "stall_items" ADD COLUMN "category" varchar(100) NOT NULL;

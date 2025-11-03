@@ -1,4 +1,4 @@
-// CREATE PRODUCT LISTING
+// CREATE PRODUCT LISTING + FETCH LISTINGS
 
 import express from "express";
 import { db } from "../db";
@@ -11,7 +11,15 @@ const router = express.Router();
 // Creates a new product listing for a vendor's stall
 router.post("/items", async (req, res) => {
   try {
-    const { stall_id, item_name, price, item_description, item_stocks } = req.body;
+    const {
+      stall_id,
+      item_name,
+      price,
+      item_description,
+      item_stocks,
+      image_url,
+      category,
+    } = req.body;
 
     // Validation
     if (!stall_id || !item_name || !price) {
@@ -29,12 +37,14 @@ router.post("/items", async (req, res) => {
     const inserted = await db
       .insert(stall_items)
       .values({
+        image_url: image_url || null,
         stall_id: Number(stall_id),
         item_name,
         item_description: item_description || null,
         price: priceDecimal,
         item_stocks: stocks,
         in_stock: stocks > 0,
+        category: category || "Uncategorized",
       })
       .returning({ item_id: stall_items.item_id });
 
@@ -49,6 +59,36 @@ router.post("/items", async (req, res) => {
       error: "Internal server error",
       details: err.message || err,
     });
+  }
+});
+
+// GET /items
+// Returns all items (for marketplace or admin view)
+router.get("/items", async (_req, res) => {
+  try {
+    const items = await db.select().from(stall_items);
+    res.status(200).json(items);
+  } catch (err) {
+    console.error("Error fetching items:", err);
+    res.status(500).json({ error: "Failed to fetch items" });
+  }
+});
+
+// GET /items/:stall_id
+// Returns items for a specific vendor/stall (for vendor’s store page)
+router.get("/items/:stall_id", async (req, res) => {
+  try {
+    const { stall_id } = req.params;
+
+    const items = await db
+      .select()
+      .from(stall_items)
+      .where(eq(stall_items.stall_id, Number(stall_id)));
+
+    res.status(200).json(items);
+  } catch (err) {
+    console.error("Error fetching stall items:", err);
+    res.status(500).json({ error: "Failed to fetch stall items" });
   }
 });
 

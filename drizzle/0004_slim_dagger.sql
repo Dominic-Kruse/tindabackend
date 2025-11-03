@@ -1,0 +1,1 @@
+ALTER TABLE "stall_items" ALTER COLUMN "category" DROP NOT NULL;

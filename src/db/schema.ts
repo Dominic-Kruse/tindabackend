@@ -122,6 +122,8 @@ export const stall_items = pgTable(
     stall_id: integer('stall_id').references(() => stalls.stall_id, { onDelete: 'cascade' }),
     item_name: varchar('item_name', { length: 250 }).notNull(),
     item_description: text('item_description'),
+    image_url: varchar("image_url", { length: 1024 }),
+    category: varchar('category', { length: 100 }),
     price: decimal('price', { precision: 12, scale: 2 }).notNull(),
     item_stocks: integer('item_stocks').default(0),
     in_stock: boolean('in_stock').default(false),
