@@ -132,3 +132,75 @@ export const createStall = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const updateStall = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const {
+      stall_name,
+      category,
+      stall_description,
+      stall_address,
+      stall_city,
+      stall_state,
+      stall_zipcode,
+      vendor_contact,
+    } = req.body;
+
+    const [updatedStall] = await db
+      .update(stalls)
+      .set({
+        stall_name,
+        category,
+        stall_description,
+        stall_address,
+        stall_city,
+        stall_state,
+        stall_zip_code: stall_zipcode,
+      })
+      .where(eq(stalls.stall_id, Number(id)))
+      .returning();
+
+    if (updatedStall && updatedStall.user_id && vendor_contact) {
+      await db
+        .update(vendors)
+        .set({ vendor_contact })
+        .where(eq(vendors.user_id, updatedStall.user_id));
+    }
+
+    if (!updatedStall) {
+      return res.status(404).json({ error: "Stall not found" });
+    }
+
+    res.status(200).json(updatedStall);
+  } catch (err) {
+    console.error("Error updating stall:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getStallById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const [stall] = await db
+      .select({
+        stall_id: stalls.stall_id,
+        stall_name: stalls.stall_name,
+        stall_description: stalls.stall_description,
+        stall_address: stalls.stall_address,
+        vendor_contact: vendors.vendor_contact,
+      })
+      .from(stalls)
+      .leftJoin(vendors, eq(stalls.user_id, vendors.user_id))
+      .where(eq(stalls.stall_id, Number(id)));
+
+    if (!stall) {
+      return res.status(404).json({ error: "Stall not found" });
+    }
+
+    res.status(200).json(stall);
+  } catch (err) {
+    console.error("Error fetching stall:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

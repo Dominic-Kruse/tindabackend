@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { getStalls, createStall } from '../controllers/stallsController';
+import { getStalls, createStall, updateStall, getStallById } from '../controllers/stallsController';
 
 const router = express.Router();
 
@@ -26,9 +26,11 @@ const upload = multer({
 
 // Routes remain exactly the same - no changes needed!
 router.get('/', getStalls);
+router.get('/:id', getStallById);
 router.post('/', upload.fields([
   { name: 'banner_image', maxCount: 1 },
   { name: 'icon_image', maxCount: 1 },
 ]), createStall);
+router.patch('/:id', updateStall);
 
 export default router;
