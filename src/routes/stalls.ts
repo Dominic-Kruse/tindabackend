@@ -31,6 +31,9 @@ router.post('/', upload.fields([
   { name: 'banner_image', maxCount: 1 },
   { name: 'icon_image', maxCount: 1 },
 ]), createStall);
-router.patch('/:id', updateStall);
+router.patch('/:id', upload.fields([
+  { name: 'banner_image', maxCount: 1 },
+  { name: 'icon_image', maxCount: 1 },
+]), updateStall);
 
 export default router;

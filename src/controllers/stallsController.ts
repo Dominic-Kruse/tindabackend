@@ -147,6 +147,10 @@ export const updateStall = async (req: Request, res: Response) => {
       vendor_contact,
     } = req.body;
 
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+    const bannerPath = files?.banner_image?.[0]?.filename || null;
+    const iconPath = files?.icon_image?.[0]?.filename || null;
+
     const [updatedStall] = await db
       .update(stalls)
       .set({
@@ -168,6 +172,26 @@ export const updateStall = async (req: Request, res: Response) => {
         .where(eq(vendors.user_id, updatedStall.user_id));
     }
 
+    if (updatedStall) {
+      if (bannerPath) {
+        await db.insert(images).values({
+          stall_id: updatedStall.stall_id,
+          image_url: `uploads/${bannerPath}`,
+          image_type: "banner",
+          entity_type: "stall",
+        });
+      }
+
+      if (iconPath) {
+        await db.insert(images).values({
+          stall_id: updatedStall.stall_id,
+          image_url: `uploads/${iconPath}`,
+          image_type: "icon",
+          entity_type: "stall",
+        });
+      }
+    }
+
     if (!updatedStall) {
       return res.status(404).json({ error: "Stall not found" });
     }
@@ -182,6 +206,8 @@ export const updateStall = async (req: Request, res: Response) => {
 export const getStallById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const bannerImages = alias(images, "banner_images");
+    const iconImages = alias(images, "icon_images");
     const [stall] = await db
       .select({
         stall_id: stalls.stall_id,
@@ -189,9 +215,26 @@ export const getStallById = async (req: Request, res: Response) => {
         stall_description: stalls.stall_description,
         stall_address: stalls.stall_address,
         vendor_contact: vendors.vendor_contact,
+        category: stalls.category,
+        banner_url: bannerImages.image_url,
+        icon_url: iconImages.image_url,
       })
       .from(stalls)
       .leftJoin(vendors, eq(stalls.user_id, vendors.user_id))
+      .leftJoin(
+        bannerImages,
+        and(
+          eq(stalls.stall_id, bannerImages.stall_id),
+          eq(bannerImages.image_type, "banner")
+        )
+      )
+      .leftJoin(
+        iconImages,
+        and(
+          eq(stalls.stall_id, iconImages.stall_id),
+          eq(iconImages.image_type, "icon")
+        )
+      )
       .where(eq(stalls.stall_id, Number(id)));
 
     if (!stall) {
