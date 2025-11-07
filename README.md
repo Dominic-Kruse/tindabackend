@@ -10,3 +10,6 @@ format for .env file:<br>
 DATABASE_URL="postgres://postgres:PASSWORD@localhost:5432/tindadb"<br><br>
 
 PORT=3001<br>
+
+JWT_SECRET=6monkeysbackatitagain<br>
+JWT_EXPIRES_IN=7d<br>

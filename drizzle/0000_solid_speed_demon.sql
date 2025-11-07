@@ -132,6 +132,7 @@ CREATE TABLE "stall_items" (
 	"price" numeric(12, 2) NOT NULL,
 	"item_stocks" integer DEFAULT 0,
 	"in_stock" boolean DEFAULT false,
+	"category" varchar(100),
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );

@@ -8,6 +8,13 @@
       "when": 1761983903496,
       "tag": "0000_solid_speed_demon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1762519868160,
+      "tag": "0001_stormy_kitty_pryde",
+      "breakpoints": true
     }
   ]
 }
