@@ -104,6 +104,8 @@ export async function updateProduct(req: Request, res: Response) {
     const { id } = req.params
     const { item_name, item_description, price, item_stocks, image_url, category } = req.body
 
+    if (!id) return res.status(400).json({ error: "Missing product ID" })
+
     const [updated] = await db
       .update(stall_items)
       .set({
@@ -119,6 +121,7 @@ export async function updateProduct(req: Request, res: Response) {
 
     if (!updated) return res.status(404).json({ error: "Product not found" })
 
+    // Handle image update
     if (image_url) {
       const existingImage = await db.query.images.findFirst({
         where: and(eq(images.item_id, Number(id)), eq(images.image_type, "thumbnail")),
@@ -145,30 +148,20 @@ export async function updateProduct(req: Request, res: Response) {
 // ========== DELETE PRODUCT ==========
 export async function deleteProduct(req: Request, res: Response) {
   try {
-    const { id } = req.params // id from route
+    const { id } = req.params
 
-    if (!id) {
-      return res.status(400).json({ error: "Missing product ID" })
-    }
+    if (!id) return res.status(400).json({ error: "Missing product ID" })
 
     const productId = Number(id)
-    if (isNaN(productId)) {
-      return res.status(400).json({ error: "Invalid product ID" })
-    }
+    if (isNaN(productId)) return res.status(400).json({ error: "Invalid product ID" })
 
-    // Check if the product exists
     const existing = await db.query.stall_items.findFirst({
       where: eq(stall_items.item_id, productId),
     })
 
-    if (!existing) {
-      return res.status(404).json({ error: "Product not found" })
-    }
+    if (!existing) return res.status(404).json({ error: "Product not found" })
 
-    // Delete related images first
     await db.delete(images).where(eq(images.item_id, productId))
-
-    // Delete the product itself
     await db.delete(stall_items).where(eq(stall_items.item_id, productId))
 
     res.status(200).json({ message: "Product deleted successfully" })
@@ -177,4 +170,3 @@ export async function deleteProduct(req: Request, res: Response) {
     res.status(500).json({ error: "Internal server error" })
   }
 }
-
