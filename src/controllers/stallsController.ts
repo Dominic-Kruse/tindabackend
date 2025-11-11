@@ -174,21 +174,31 @@ export const updateStall = async (req: Request, res: Response) => {
 
     if (updatedStall) {
       if (bannerPath) {
-        await db.insert(images).values({
-          stall_id: updatedStall.stall_id,
-          image_url: `uploads/${bannerPath}`,
-          image_type: "banner",
-          entity_type: "stall",
-        });
+        const [existingBanner] = await db.select().from(images).where(and(eq(images.stall_id, updatedStall.stall_id), eq(images.image_type, "banner")));
+        if (existingBanner) {
+          await db.update(images).set({ image_url: `uploads/${bannerPath}` }).where(eq(images.image_id, existingBanner.image_id));
+        } else {
+          await db.insert(images).values({
+            stall_id: updatedStall.stall_id,
+            image_url: `uploads/${bannerPath}`,
+            image_type: "banner",
+            entity_type: "stall",
+          });
+        }
       }
 
       if (iconPath) {
-        await db.insert(images).values({
-          stall_id: updatedStall.stall_id,
-          image_url: `uploads/${iconPath}`,
-          image_type: "icon",
-          entity_type: "stall",
-        });
+        const [existingIcon] = await db.select().from(images).where(and(eq(images.stall_id, updatedStall.stall_id), eq(images.image_type, "icon")));
+        if (existingIcon) {
+          await db.update(images).set({ image_url: `uploads/${iconPath}` }).where(eq(images.image_id, existingIcon.image_id));
+        } else {
+          await db.insert(images).values({
+            stall_id: updatedStall.stall_id,
+            image_url: `uploads/${iconPath}`,
+            image_type: "icon",
+            entity_type: "stall",
+          });
+        }
       }
     }
 
@@ -247,3 +257,29 @@ export const getStallById = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export async function getStallsByVendor(req: Request, res: Response) {
+  try {
+    const { vendorId } = req.params;
+    console.log("Fetching stalls for vendorId:", vendorId);
+
+    const stallList = await db
+      .select({
+        stall_id: stalls.stall_id,
+        stall_name: stalls.stall_name,
+        stall_description: stalls.stall_description,
+        icon_url: images.image_url,
+      })
+      .from(stalls)
+      .leftJoin(images, and(eq(stalls.stall_id, images.stall_id), eq(images.image_type, "icon")))
+      .where(eq(stalls.user_id, Number(vendorId)));
+
+    console.log("Found stalls:", stallList);
+
+    res.status(200).json(stallList);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
