@@ -1,7 +1,12 @@
 import { Router } from 'express'
 import { verifyToken, AuthenticatedRequest } from '../middleware/authMiddleware'
+import { registerUser, loginUser } from '../controllers/usersController'
 
 const router = Router()
+
+
+router.post('/register', registerUser)
+router.post('/login', loginUser)
 
 // Example protected route (test JWT)
 router.get('/profile', verifyToken, (req: AuthenticatedRequest, res) => {
@@ -12,3 +17,4 @@ router.get('/profile', verifyToken, (req: AuthenticatedRequest, res) => {
 })
 
 export default router
+
