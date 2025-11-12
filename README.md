@@ -13,3 +13,5 @@ PORT=3001<br>
 
 JWT_SECRET=6monkeysbackatitagain<br>
 JWT_EXPIRES_IN=7d<br>
+
+download multer npm i and ang iya types -d types@multer<br>

@@ -19,6 +19,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter) // ✅ now /api/auth/profile will work
 app.use('/api/stalls', stallsRouter);
 app.use('/api/products', productsRouter);
+app.use('/uploads', express.static('uploads'));
 
 // (Optional) keep your test routes for fetching tables
 const tables = [
