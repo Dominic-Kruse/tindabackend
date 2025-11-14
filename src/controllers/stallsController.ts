@@ -72,6 +72,15 @@ export const createStall = async (req: Request, res: Response) => {
       user_id,
     } = req.body;
 
+    const authenticatedUserId = req.user?.id; 
+
+    console.log('Authenticated user info:', req.user);
+    console.log('Extracted user ID:', authenticatedUserId);
+
+    if (!authenticatedUserId) {
+      return res.status(401).json({ error: "User authentication required" });
+    }
+
     if (!stall_name || !category || !stall_description || !stall_address || !user_id) {
       return res.status(400).json({ error: "Missing required fields" });
     }
